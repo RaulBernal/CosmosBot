@@ -8,6 +8,8 @@ import json
 
 from config import token, path_to_daemon, url_api, bcna_address, operator_address, chain_id, priv_key, wallet_name, url_explorer
 
+# TODO
+# http://testnet.cubital.es:1317/staking/pool  --> bonded_tokens
 
 bot = botogram.create(token)
 bot.about = "Telegram Bot for get info about BCNA chain. \nIf you found any bugs or have suggestions for new functionalities...\nPlease contact us!"
