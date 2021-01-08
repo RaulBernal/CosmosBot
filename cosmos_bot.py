@@ -4,7 +4,8 @@ import datetime
 import os
 import botogram #pip3 install botogram2
 import json
-#import pexpect  #pip3 install pexpect before run the first time
+import requests
+
 
 from config import token, path_to_daemon, url_api, bcna_address, operator_address, chain_id, priv_key, wallet_name, url_explorer
 
@@ -20,9 +21,6 @@ def getblockcount_command(chat, message, args):
     """Check this to know if your fullnode-validator is synced"""
     get_block = os.popen(path_to_daemon + 'status').read()
     loaded_json = json.loads(get_block)
-   
-    #gaiacli status | jq '.sync_info.latest_block_height'
-
     print("Result:", loaded_json['sync_info']['latest_block_height'])
     block = str(loaded_json['sync_info']['latest_block_height'])
     chat.send("The current Block is "+block)
@@ -49,7 +47,7 @@ def getmasternode_command(chat, message, args):
     print ("List of online VALIDATORS")
     print ("==========================")
     for tx in loaded_json:
-        msg = msg + '*' + str(tx["description"]["moniker"]) + '* - Jailed: ' + str(tx["jailed"]) + '\n' 
+        msg = msg + '*' + str(tx["description"]["moniker"]) + '* - Jailed: ' + str(tx["jailed"]) + '\nPOWER: ' + str(tx["delegator_shares"])  
         count = count + 1
     print (msg + "\nTotal: " + str(count))
     chat.send(msg + "\nTotal: " + str(count))
