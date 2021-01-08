@@ -10,11 +10,27 @@ import requests
 from config import token, path_to_daemon, url_api, bcna_address, operator_address, chain_id, priv_key, wallet_name, url_explorer, url_explorer2
 
 # TODO
-# http://testnet.cubital.es:1317/staking/pool  --> bonded_tokens
+# url_api + /staking/pool  --> bonded_tokens
 
 bot = botogram.create(token)
 bot.about = "Telegram Bot for get info about BCNA chain. \nIf you found any bugs or have suggestions for new functionalities...\nPlease contact us!"
 bot.owner = "BitCanna Community"
+#========================
+    address = message.reply_to_message.text
+    url = url_api + 'accounts/' + address
+    try:
+        response = requests.get(url,headers={"Accept": "application/json"},)
+    except:
+        conn_error = "An error occurred, try again later"
+        chat.send(conn_error)
+        print(message.sender.username+"\n"+conn_error)
+    else:
+        data = response.json()
+        balance = str(data)
+        chat.send("The current balance is "+balance+" BCNA")
+        print(message.sender.username+"\n"+address+"\n"+balance)
+
+
 #==========================================================================
 @bot.command("getblockcount")
 def getblockcount_command(chat, message, args):
