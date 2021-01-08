@@ -55,7 +55,7 @@ def getmasternode_command(chat, message, args):
 @bot.command("explorer")  # sample to build a textfile and send it by telegram
 def explorer_command(chat, message, args):
     chat.send ('Click at the URL: ' + url_explorer)
-    get_address = os.popen(path_to_daemon + 'status | jq .validator_info').read()
+    get_address = os.popen(path_to_daemon + 'status | jq .validator_info.address | tr -d \'"\'').read()
     chat.send ('Click at the URL: ' + url_explorer2 + get_address["address"])
 
 #==========================================================================
