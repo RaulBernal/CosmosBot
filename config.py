@@ -6,7 +6,7 @@ operator_address='bcnavaloper1dpa0fkmjf3taqnc4fu43l2lgektt3caea8pfwx' #Bcnad Val
 chain_id='bitcanna'
 priv_key='----'  #privkey of the wallet 
 wallet_name='Pandora' 
-url_explorer='http://testnet.cubital.es:8080/' + bandvaloper_address
+url_explorer='http://testnet.cubital.es:8080/' + operator_address
 
 #About Telegram API with Botogram - create with BotFather bot
 token = '119870800:AAGSqBiz0_5LarTTJbV7soNHzGEedXlfggM' #  Put your own token
