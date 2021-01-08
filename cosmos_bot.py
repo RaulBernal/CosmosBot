@@ -7,7 +7,7 @@ import json
 import requests
 
 
-from config import token, path_to_daemon, url_api, bcna_address, operator_address, chain_id, priv_key, wallet_name, url_explorer
+from config import token, path_to_daemon, url_api, bcna_address, operator_address, chain_id, priv_key, wallet_name, url_explorer, url_explorer2
 
 # TODO
 # http://testnet.cubital.es:1317/staking/pool  --> bonded_tokens
@@ -55,6 +55,7 @@ def getmasternode_command(chat, message, args):
 @bot.command("explorer")  # sample to build a textfile and send it by telegram
 def explorer_command(chat, message, args):
     chat.send ('Click at the URL: ' + url_explorer)
+    chat.send ('Click at the URL: ' + url_explorer2)
 
 #==========================================================================
 @bot.prepare_memory          #Automated actions
