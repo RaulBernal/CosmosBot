@@ -56,7 +56,7 @@ def getmasternode_command(chat, message, args):
 def explorer_command(chat, message, args):
     chat.send ('Click at the URL: ' + url_explorer)
     get_address = os.popen(path_to_daemon + 'status | jq .validator_info').read()
-    chat.send ('Click at the URL: ' + 'https://testnet.cubital.es:8080/validator/' + get_address["address"])
+    chat.send ('Click at the URL: ' + url_explorer2 + get_address["address"])
 
 #==========================================================================
 @bot.prepare_memory          #Automated actions
