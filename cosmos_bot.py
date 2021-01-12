@@ -16,19 +16,23 @@ bot = botogram.create(token)
 bot.about = "Telegram Bot for get info about BCNA chain. \nIf you found any bugs or have suggestions for new functionalities...\nPlease contact us!"
 bot.owner = "BitCanna Community"
 #========================
+@bot.command("getrewards")
+def getrewards_command(chat, message, args):
+    """Get rewards replying to a given address"""
     address = message.reply_to_message.text
-    url = url_api + 'accounts/' + address
+    url = url_api + 'distribution/delegators/' + address + '/rewards'
     try:
         response = requests.get(url,headers={"Accept": "application/json"},)
     except:
-        conn_error = "An error occurred, try again later"
+        conn_error = "An error occurred, try to put a valid address"
         chat.send(conn_error)
         print(message.sender.username+"\n"+conn_error)
     else:
         data = response.json()
-        balance = str(data)
-        chat.send("The current balance is "+balance+" BCNA")
-        print(message.sender.username+"\n"+address+"\n"+balance)
+        balance = data["result"]
+        chat.send("The current reward is: \n```" + str(balance["total"]) + "```")
+        chat.send(url)
+        #print(message.sender.username+"\n"+address+"\n"+balance)
 
 
 #==========================================================================
@@ -45,7 +49,7 @@ def getblockcount_command(chat, message, args):
 def getlist_command(chat, message, args):
     """This will show the balance of your config address"""
     msg = ""
-    get_last = os.popen(path_to_daemon + 'query staking delegations ' + bcna_address + ' -o json | jq .[0].balance').read()
+    get_last = os.popen(path_to_daemon + 'query bank balances ' + bcna_address + ' -o json').read()
     loaded_json = json.loads(get_last)
     denom = loaded_json["denom"]
     amount = loaded_json["amount"]
@@ -57,13 +61,14 @@ def getmasternode_command(chat, message, args):
     """This will show the online VALIDATORS"""
     get_validators = os.popen(path_to_daemon + ' query staking validators -o json').read()
     loaded_json = json.loads(get_validators)
+    print(loaded_json)
     msg = ""
     count = 0
     chat.send ("List of online VALIDATORS") 
     print ("List of online VALIDATORS")
     print ("==========================")
-    for tx in loaded_json:
-        msg = msg + '*' + str(tx["description"]["moniker"]) + '* - Jailed: ' + str(tx["jailed"]) + '\nPOWER: ' + str(tx["delegator_shares"])  
+    for tx in loaded_json["validators"]:
+        msg = msg + '*' + str(tx["description"]["moniker"]) + '* - Jailed: ' + str(tx["jailed"]) + '\nPOWER: ' + str(tx["delegator_shares"]) + '\n'
         count = count + 1
     print (msg + "\nTotal: " + str(count))
     chat.send(msg + "\nTotal: " + str(count))
